@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoice Desk: PDF to payment decision</title>
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>Invoice Desk</h1>
+    <p class="sub">Vendor invoice in, approve / review / hold / reject out, with the reasons shown. Case study PS-1.</p>
+  </div>
+  <div class="head-actions">
+    <button id="runAll" class="ghost">Run all 12 samples in order</button>
+    <button id="reset" class="ghost">Clear history</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel" id="inputPanel">
+    <h2>1. Give it an invoice</h2>
+    <label class="lbl">Sample invoices (real PDFs)</label>
+    <div id="samples" class="samples"></div>
+    <label class="lbl">Or upload your own</label>
+    <input type="file" id="file" accept=".pdf,.txt,.json">
+    <label class="lbl">Or paste invoice text / JSON</label>
+    <textarea id="paste" rows="6" placeholder="Paste invoice text or a JSON object here"></textarea>
+    <button id="runPaste" class="primary">Process pasted text</button>
+    <p class="hint">PDFs are read in the browser (pdf.js). Nothing leaves your machine. Scanned images have no text layer, so they are routed to a person.</p>
+  </section>
+
+  <section class="panel" id="runPanel">
+    <h2>2. Watch it run</h2>
+    <div id="source" class="source">No run yet. Pick a sample on the left.</div>
+    <ol id="stages" class="stages"></ol>
+    <div id="result" hidden>
+      <div id="banner" class="banner"></div>
+      <h3>Extracted</h3>
+      <table class="kv" id="fields"></table>
+      <h3>Checks</h3>
+      <ul id="checks" class="checks"></ul>
+      <h3 id="msgTitle">Message</h3>
+      <pre id="message"></pre>
+    </div>
+  </section>
+
+  <section class="panel wide" id="dash">
+    <h2>3. Dashboard of past runs</h2>
+    <div id="counts" class="counts"></div>
+    <div class="tablewrap">
+      <table id="runs">
+        <thead><tr><th>Time</th><th>Source</th><th>Vendor</th><th>Invoice</th><th>PO</th><th class="r">Amount</th><th>Status</th><th class="r">ms</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="empty" class="hint">No runs yet.</p>
+    <details>
+      <summary>Procurement data the process checks against</summary>
+      <div class="cols">
+        <div><h3>Purchase orders (balance updates as invoices are approved)</h3><table id="poTable"></table></div>
+        <div><h3>Vendor master</h3><table id="vTable"></table></div>
+      </div>
+      <p class="hint">Rules: unit price or total within 2% of PO approves; 2 to 5% goes to a person; above 5% is rejected. Duplicates, unknown or blocked vendors, over-billing, bank or GSTIN mismatches and missing fields are handled by the checks R1 to R10 in <code>src/engine.js</code>.</p>
+    </details>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="src/engine.js"></script>
+<script src="src/samples.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
