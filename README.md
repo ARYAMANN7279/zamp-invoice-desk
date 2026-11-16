@@ -14,7 +14,10 @@ node tests/run.js                  # 12 samples x 2 input paths + 3 extra cases,
 ```
 No keys, no backend, no install. PDFs are parsed in the browser with pdf.js (loaded from cdnjs), so the page needs internet for that one script.
 
-## Live link (needs you)
+## Live link
+**https://aryamann7279.github.io/zamp-invoice-desk/** (repo: https://github.com/ARYAMANN7279/zamp-invoice-desk). Deployed 16 Nov via GitHub Pages and checked: sample 01 reads its PDF and approves.
+
+How it was deployed, if you need to redo it:
 It is a static site, so any static host works. The simplest is GitHub Pages from a repo under your account:
 1. Push this folder to a new public repo on `ARYAMANN7279` (I have not pushed anything).
 2. Settings > Pages > Deploy from branch `main` / root.
